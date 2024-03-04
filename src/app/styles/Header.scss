@@ -1,0 +1,44 @@
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+  
+    .header-logo, .header-login {
+      margin: 0 7rem;
+      display: flex;
+      align-items: center;
+  
+      .logo-text {
+        margin-left: 10px; 
+      }
+    }
+  
+    .header-login {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #D8EADB;
+      
+        svg {
+          width: 20px; 
+          height: 20px; 
+          fill: currentColor;
+        }
+      }
+  
+    .header-links {
+      display: flex;
+      justify-content: center;
+      flex-grow: 1; 
+  
+      a {
+        margin: 0 15px; 
+      }
+    }
+  }
+  
