@@ -2,3 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+.gradient-bg {
+  height: 200px;
+  width: 100%;
+  background: linear-gradient(#c8e4c9, transparent);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
