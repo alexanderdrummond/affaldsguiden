@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { UserContext, useUser } from "@/app/context/UserContext";
+import Button from "../../Static/atoms/Button";
 
 const CommentSection = ({ stationId }) => {
   const [selectedStars, setSelectedStars] = useState(0);
@@ -64,12 +65,9 @@ const CommentSection = ({ stationId }) => {
         onChange={(e) => setComment(e.target.value)}
       ></textarea>
       <div className="flex justify-center">
-        <button
-          className="mt-4 p-2 bg-blue-500 text-white rounded-md"
-          onClick={handleSubmit}
-        >
+        <Button className="mt-4" variant="filled" onClick={handleSubmit}>
           Send kommentar
-        </button>
+        </Button>
       </div>
     </div>
   );
