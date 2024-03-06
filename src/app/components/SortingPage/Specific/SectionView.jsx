@@ -23,36 +23,38 @@ const SectionView = ({ categoryId }) => {
   }, [categoryId]);
 
   const renderTable = (types, isAllowed) => (
-    <table className="min-w-full divide-y divide-gray-200 mt-2">
-      <thead className="bg-gray-50">
-        <tr>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Type
-          </th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Sorteres hjemme
-          </th>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            Station
-          </th>
-        </tr>
-      </thead>
-      <tbody className="bg-white divide-y divide-gray-200">
-        {types
-          .filter((type) => type.rules.is_allowed === isAllowed)
-          .map((type) => (
-            <tr key={type.id}>
-              <td className="px-6 py-4 whitespace-nowrap">{type.title}</td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                {type.rules.is_home ? "Ja" : "Nej"}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                {type.rules.is_station ? "Ja" : "Nej"}
-              </td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
+    <div className="overflow-x-auto w-full">
+      <table className="min-w-full divide-y divide-gray-200 mt-2">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Type
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Sorteres hjemme
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Station
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {types
+            .filter((type) => type.rules.is_allowed === isAllowed)
+            .map((type) => (
+              <tr key={type.id}>
+                <td className="px-6 py-4 whitespace-nowrap">{type.title}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {type.rules.is_home ? "Ja" : "Nej"}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {type.rules.is_station ? "Ja" : "Nej"}
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    </div>
   );
 
   return (

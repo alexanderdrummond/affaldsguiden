@@ -11,3 +11,14 @@
   left: 0;
   z-index: -1;
 }
+
+.mask-star-filled {
+  -webkit-mask: url("/star.svg") no-repeat center / contain;
+  mask: url("/star.svg") no-repeat center / contain;
+}
+
+.mask-star-empty {
+  -webkit-mask: url("/star.svg") no-repeat center / contain;
+  mask: url("/star.svg") no-repeat center / contain;
+  background-color: #d1d5db;
+}

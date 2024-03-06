@@ -38,15 +38,15 @@ const ItemDetailPage = ({ params }) => {
   }
 
   if (!sectionData) {
-    return <div>No data found</div>;
+    return <div>no data</div>;
   }
 
   return (
     <Layout>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center my-10 mx-4 md:mx-auto">
         <div className="rounded-lg shadow-lg w-full md:w-1/2">
           <div
-            className="flex items-center justify-between p-4"
+            className="flex items-center justify-between p-4  rounded-t-lg"
             style={{ backgroundColor: `#${sectionData.color}` }}
           >
             <h1 className="text-2xl font-bold text-white">

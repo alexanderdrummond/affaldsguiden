@@ -34,7 +34,9 @@ const SortingGrid = () => {
             className="w-full object-cover h-48"
           />
           <div style={{ backgroundColor: `#${item.color}` }} className="p-4">
-            <h5 className="text-lg font-bold text-white">{item.title}</h5>
+            <h5 className="text-md text-center font-semibold text-white">
+              {item.title}
+            </h5>
           </div>
         </div>
       ))}

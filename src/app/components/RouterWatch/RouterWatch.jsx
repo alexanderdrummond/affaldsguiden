@@ -8,8 +8,8 @@ export const RouterWatch = () => {
   const { user } = useUser();
 
   useEffect(() => {
-    console.log("Navigated to:", pathname, searchParams);
-    console.log("Current User:", user);
+    console.log("nav to:", pathname, searchParams);
+    console.log("user:", user);
   }, [pathname, searchParams, user]);
 
   return null;
