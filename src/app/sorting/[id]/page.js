@@ -38,32 +38,53 @@ const ItemDetailPage = ({ params }) => {
   }
 
   if (!sectionData) {
-    return <div>no data</div>;
+    return <div>No data found</div>;
   }
 
   return (
     <Layout>
       <div className="flex flex-col items-center">
-        <div className="bg-white rounded-lg shadow-lg p-4 m-4 w-full md:w-1/2">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">{sectionData.title}</h1>
+        <div className="rounded-lg shadow-lg w-full md:w-1/2">
+          <div
+            className="flex items-center justify-between p-4"
+            style={{ backgroundColor: `#${sectionData.color}` }}
+          >
+            <h1 className="text-2xl font-bold text-white">
+              {sectionData.title}
+            </h1>
             <img
               src={sectionData.filepath}
               alt={sectionData.title}
-              className="h-10 w-10 rounded-full"
+              className="h-10 w-10"
             />
           </div>
-          <div className="mt-4">
+          <div className="p-4 space-y-4">
             {sectionData.categories.map((category) => (
-              <div key={category.id}>
-                <div
-                  onClick={() => handleCategoryClick(category.id)}
-                  className="cursor-pointer p-2 hover:bg-gray-100 rounded-md"
-                >
+              <div
+                key={category.id}
+                className="relative bg-gray-100 rounded-lg shadow-md p-4"
+              >
+                <div className="flex items-center">
+                  <div
+                    className="w-10 h-10 rounded-full mr-4"
+                    style={{ backgroundColor: `#${sectionData.color}` }}
+                  >
+                    <img
+                      src={category.icon_filepath}
+                      alt={category.title}
+                      className="w-full h-full rounded-md"
+                    />
+                  </div>
                   <h2 className="text-lg">{category.title}</h2>
                 </div>
+                <div
+                  onClick={() => handleCategoryClick(category.id)}
+                  className="absolute -bottom-2.5 left-1/2 transform -translate-x-1/2 w-5 h-5 rounded-full bg-black cursor-pointer"
+                ></div>
                 {selectedCategoryId === category.id && (
-                  <SectionView categoryId={selectedCategoryId} />
+                  <div className="mt-4">
+                    <SectionView categoryId={selectedCategoryId} />
+                  </div>
                 )}
               </div>
             ))}
