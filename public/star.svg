@@ -1,0 +1,9 @@
+<svg id="vuesax_bold_magic-star" data-name="vuesax/bold/magic-star" xmlns="http://www.w3.org/2000/svg" width="19.68" height="19.805" viewBox="0 0 19.68 19.805">
+  <rect id="vuesax_bold_magic-star-2" data-name="vuesax/bold/magic-star" width="18" height="18" transform="translate(0.246 0.28)" fill="none"/>
+  <g id="vuesax_bold_magic-star-3" data-name="vuesax/bold/magic-star" transform="translate(0)">
+    <g id="magic-star">
+      <path id="Vector" d="M0,0H18V18H0Z" transform="translate(0.246 0.259)" fill="none" opacity="0"/>
+      <path id="Vector-2" data-name="Vector" d="M11.392,1.605l-.052,2.842a1.56,1.56,0,0,0,.555,1.14L13.754,7c1.193.9,1,2-.427,2.453l-2.422.757a1.563,1.563,0,0,0-.938.983l-.578,2.2c-.458,1.74-1.6,1.913-2.543.382L5.527,11.64a1.544,1.544,0,0,0-1.26-.66l-2.5.127c-1.793.09-2.3-.945-1.133-2.31L2.114,7.073a1.561,1.561,0,0,0,.278-1.327l-.765-2.43C1.184,1.89,1.979,1.1,3.4,1.568L5.609,2.3A1.565,1.565,0,0,0,6.862,2.1L9.172.435c1.253-.892,2.25-.368,2.22,1.17Z" transform="translate(0 6.599) rotate(-27)" fill="#d9d9d9"/>
+    </g>
+  </g>
+</svg>

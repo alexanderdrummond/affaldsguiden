@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "../Static/atoms/Button";
+import { useNotification } from "@/app/context/NotificationContext";
 
 export default function RightHalf() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { showNotification } = useNotification();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -34,12 +36,13 @@ export default function RightHalf() {
         const result = await response.json();
         localStorage.setItem("token", result.access_token);
         localStorage.setItem("user", JSON.stringify(result.user));
-        console.log(result);
+        showNotification("success", "Du er nu logget ind");
       } else if (response.status === 401) {
-        console.log("unauthed: incorrect username or password");
+        showNotification("error", "Forkert brugernavn eller kode");
       }
     } catch (error) {
       console.error("Login error", error);
+      showNotification("error", "tba");
     }
   };
 

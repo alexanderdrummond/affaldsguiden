@@ -9,6 +9,11 @@ const Links = () => {
       (pathname === "/sorting" || pathname.startsWith("/sorting/"))
     ) {
       return true;
+    } else if (
+      path === "/stations" &&
+      (pathname === "/stations" || pathname.startsWith("/stations/"))
+    ) {
+      return true;
     }
     return pathname === path;
   };
