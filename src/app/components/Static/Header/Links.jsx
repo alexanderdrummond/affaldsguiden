@@ -29,10 +29,7 @@ const Links = () => {
       <a href="/stations" className={isActive("/stations") ? "active" : ""}>
         Genbrugsstationer
       </a>
-      <a
-        href="/bestil-beholder"
-        className={isActive("/bestil-beholder") ? "active" : ""}
-      >
+      <a href="/order" className={isActive("/order") ? "active" : ""}>
         Bestil beholder
       </a>
     </div>
