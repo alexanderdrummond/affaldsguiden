@@ -32,6 +32,8 @@ export default function RightHalf() {
 
       if (response.status === 200) {
         const result = await response.json();
+        localStorage.setItem("token", result.access_token);
+        localStorage.setItem("user", JSON.stringify(result.user));
         console.log(result);
       } else if (response.status === 401) {
         console.log("unauthed: incorrect username or password");
