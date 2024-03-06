@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 const SectionView = ({ categoryId }) => {
   const [categoryDetails, setCategoryDetails] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [openTypeId, setOpenTypeId] = useState(null);
 
   useEffect(() => {
     if (categoryId) {
@@ -23,25 +22,33 @@ const SectionView = ({ categoryId }) => {
     }
   }, [categoryId]);
 
-  const toggleAccordion = (id) => {
-    setOpenTypeId(openTypeId === id ? null : id);
-  };
-
-  const renderTable = (types, ruleKey) => (
-    <table className="table-auto w-full text-left mt-2">
-      <thead>
-        <tr className="bg-gray-100">
-          <th className="px-4 py-2">Type</th>
-          <th className="px-4 py-2">Sorteres hjemme</th>
+  const renderTable = (types, isAllowed) => (
+    <table className="min-w-full divide-y divide-gray-200 mt-2">
+      <thead className="bg-gray-50">
+        <tr>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Type
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Sorteres hjemme
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Station
+          </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="bg-white divide-y divide-gray-200">
         {types
-          .filter((type) => type.rules[ruleKey])
+          .filter((type) => type.rules.is_allowed === isAllowed)
           .map((type) => (
-            <tr key={type.id} className="border-b">
-              <td className="px-4 py-2">{type.title}</td>
-              <td className="px-4 py-2">{type.rules.is_home ? "Ja" : "Nej"}</td>
+            <tr key={type.id}>
+              <td className="px-6 py-4 whitespace-nowrap">{type.title}</td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                {type.rules.is_home ? "Ja" : "Nej"}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                {type.rules.is_station ? "Ja" : "Nej"}
+              </td>
             </tr>
           ))}
       </tbody>
@@ -49,30 +56,18 @@ const SectionView = ({ categoryId }) => {
   );
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 w-full md:w-1/2">
-      {loading && <div>Loading...</div>}
-      {!loading &&
-        categoryDetails &&
-        categoryDetails.types.map((type) => (
-          <div key={type.id} className="m-2">
-            <button
-              onClick={() => toggleAccordion(type.id)}
-              className="w-full text-left font-semibold p-2 rounded hover:bg-gray-100"
-            >
-              {type.title}
-            </button>
-            {openTypeId === type.id && (
-              <div className="mt-4">
-                <h4 className="font-semibold text-md">Vi modtager</h4>
-                {renderTable(categoryDetails.types, "is_allowed")}
-                <h4 className="font-semibold text-md mt-4">
-                  Vi modtager på station
-                </h4>
-                {renderTable(categoryDetails.types, "is_station")}
-              </div>
-            )}
-          </div>
-        ))}
+    <div className="flex flex-col items-center">
+      <div className="bg-white rounded-lg shadow-lg p-4 w-11/12">
+        {loading && <div>Loading...</div>}
+        {!loading && categoryDetails && (
+          <>
+            <h3 className="text-lg font-semibold">Vi modtager</h3>
+            {renderTable(categoryDetails.types, true)}
+            <h3 className="text-lg font-semibold mt-6">Vi modtager ikke</h3>
+            {renderTable(categoryDetails.types, false)}
+          </>
+        )}
+      </div>
     </div>
   );
 };
