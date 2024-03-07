@@ -3,8 +3,7 @@ import { useUser } from "@/app/context/UserContext";
 
 const Login = () => {
   const router = useRouter();
-  const { user, setUser } = useUser();
-
+  const { user, setUser, loading } = useUser();
   const handleSignOut = () => {
     setUser(null);
     localStorage.removeItem("user");

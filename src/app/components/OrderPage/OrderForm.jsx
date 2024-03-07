@@ -64,8 +64,8 @@ const OrderForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center my-14">
-      <div className="w-full max-w-4xl bg-white rounded-lg overflow-hidden shadow-xl">
+    <div className="flex flex-col items-center my-28">
+      <div className="w-full max-w-4xl bg-[#F6F6F6] rounded-lg overflow-hidden shadow-xl">
         <div className="flex">
           <div className="w-1/3 bg-[#114D46] p-4"></div>
           <div className="w-2/3 p-8">

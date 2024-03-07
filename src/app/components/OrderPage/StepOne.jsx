@@ -17,8 +17,8 @@ const StepOne = ({
 
   return (
     <div>
-      <h2 className="text-xl">Trin 1</h2>
-      <h3 className="text-lg font-bold mt-4">Vælg type</h3>
+      <h2 className="text-xl font-extralight">Trin 1</h2>
+      <h3 className="text-2xl  mt-6 font-normal">Vælg type</h3>
       <p className="text-sm mt-2">Lorem ipsum</p>
       <div className="grid grid-cols-2 gap-4 mt-8">
         {containers.map((container) => (
@@ -28,7 +28,7 @@ const StepOne = ({
             className={`flex flex-col items-center justify-center border rounded-lg p-4 cursor-pointer ${
               selectedId === container.id
                 ? "border-customgreendark bg-customgreenlight"
-                : "border-gray-200"
+                : "border-gray-200 bg-white"
             }`}
           >
             <img

@@ -1,6 +1,28 @@
+import useStore from "@/app/store/store";
+import { useUser } from "@/app/context/UserContext";
+import { useNotification } from "@/app/context/NotificationContext";
+
 const ReviewItem = ({ review, formatDate }) => {
+  const { user } = useUser();
+  const { deleteReview } = useStore((state) => ({
+    deleteReview: state.deleteReview,
+  }));
+  const { showNotification } = useNotification();
+
+  const handleDelete = async () => {
+    try {
+      await deleteReview(review.id);
+      showNotification("success", "Anmeldelse slettet.");
+    } catch (error) {
+      console.error("delete review error:", error);
+      showNotification("error", "Fejl ved sletning af anmeldelse.");
+    }
+  };
+
+  const isUserReview = user && Number(user.id) === review.user.id;
+
   return (
-    <div className="border-b border-gray-200 py-4">
+    <div className="border-b-2 border-gray-200  p-4">
       <div className="flex justify-between items-start">
         <div>
           <p className="text-sm text-gray-600">
@@ -27,6 +49,16 @@ const ReviewItem = ({ review, formatDate }) => {
         </div>
       </div>
       <p className="mt-4 text-gray-600">{review.comment}</p>
+      {isUserReview && (
+        <div className="text-right mt-2">
+          <button
+            onClick={handleDelete}
+            className="text-red-600 hover:text-red-800 text-sm"
+          >
+            delete
+          </button>
+        </div>
+      )}
     </div>
   );
 };

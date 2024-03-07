@@ -23,6 +23,7 @@
   .header-login {
     width: 40px;
     height: 40px;
+    max-width: 40px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -46,6 +47,10 @@
     a {
       margin: 0 15px;
       position: relative;
+
+      &:hover {
+        color: #afbea0;
+      }
 
       &.active {
         color: #6da830;
