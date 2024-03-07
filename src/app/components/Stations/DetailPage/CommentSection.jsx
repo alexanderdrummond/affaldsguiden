@@ -3,7 +3,7 @@ import { UserContext, useUser } from "@/app/context/UserContext";
 import Button from "../../Static/atoms/Button";
 import { useNotification } from "@/app/context/NotificationContext";
 
-const CommentSection = ({ stationId }) => {
+const CommentSection = ({ stationId, onCommentSubmit }) => {
   const [selectedStars, setSelectedStars] = useState(0);
   const [comment, setComment] = useState("");
   const { user } = useUser();
@@ -21,7 +21,7 @@ const CommentSection = ({ stationId }) => {
 
     const urlencoded = new URLSearchParams();
     urlencoded.append("org_id", stationId.toString());
-    urlencoded.append("subject", "to be added");
+    urlencoded.append("subject", "Anmeldelse");
     urlencoded.append("comment", comment);
     urlencoded.append("num_stars", selectedStars.toString());
     urlencoded.append("date", new Date().toISOString());
@@ -33,7 +33,6 @@ const CommentSection = ({ stationId }) => {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: urlencoded,
-      redirect: "follow",
     };
 
     try {
@@ -41,35 +40,40 @@ const CommentSection = ({ stationId }) => {
         "http://localhost:3000/reviews",
         requestOptions
       );
-      console.log(response);
 
       if (!response.ok) {
+        const errorText = await response.text();
         console.error(
-          "server response error",
+          "Server response error",
           response.status,
-          response.statusText
+          response.statusText,
+          errorText
         );
-        throw new Error("server response error");
+        showNotification("error", "Fejl ved indsendelse af anmeldelse.");
+        return;
       }
-
-      showNotification("success", "Din kommentar er blevet oprettet.");
 
       const newComment = {
         org_id: stationId,
-        subject: "to be added",
+        subject: "Anmeldelse",
         comment: comment,
         num_stars: selectedStars,
         date: new Date().toISOString(),
+        user: {
+          firstname: user.firstname,
+          lastname: user.lastname,
+        },
       };
 
-      onCommentSubmit(newComment);
+      onCommentSubmit && onCommentSubmit(newComment);
+      showNotification("success", "Din kommentar er blevet oprettet.");
       setComment("");
       setSelectedStars(0);
     } catch (error) {
-      console.error("comment error:", error);
+      console.error("Comment error:", error);
       showNotification(
         "error",
-        "Der opstod en fejl med oprettelsen af din kommentar."
+        "Der opstod en fejl ved indsendelse af din kommentar."
       );
     }
   };

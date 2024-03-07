@@ -56,8 +56,7 @@ const ItemDetailPage = ({ params }) => {
               <img
                 src={sectionData.filepath}
                 alt={sectionData.title}
-                className="object-cover"
-                style={{ width: "20%", height: "100%" }}
+                className="object-cover rounded-tr-lg invisible md:visible md:w-[21%] h-[100%]"
               />
             </div>
           </div>

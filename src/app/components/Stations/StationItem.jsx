@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import GoogleMapView from "./GoogleMapView";
 
 const StationItem = ({ id, name, address, zipcode, city }) => {
   const [reviews, setReviews] = useState([]);
@@ -31,7 +32,7 @@ const StationItem = ({ id, name, address, zipcode, city }) => {
       onClick={navigateToDetail}
       className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
     >
-      <div className="h-40 bg-gray-200"></div>{" "}
+      <GoogleMapView orgId={id} />
       <div className="p-4">
         <h3 className="text-lg font-semibold">{name}</h3>
         <p className="mt-1">{address}</p>
@@ -41,6 +42,7 @@ const StationItem = ({ id, name, address, zipcode, city }) => {
           <div>
             {[...Array(5)].map((_, i) => (
               <div
+                key={i}
                 className={`w-4 h-4 inline-block bg-yellow-400 ${
                   i < averageRating ? "mask-star-filled" : "mask-star-empty"
                 }`}

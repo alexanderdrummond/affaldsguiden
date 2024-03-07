@@ -6,26 +6,17 @@ const formatDate = (dateString) => {
   return date.toLocaleDateString();
 };
 
-const ReviewList = ({ stationId }) => {
-  const [reviews, setReviews] = useState([]);
-
-  const addReview = (newReview) => {
-    setReviews((prevReviews) => [newReview, ...prevReviews]);
-  };
-
-  useEffect(() => {
-    fetch(`http://localhost:3000/reviews/${stationId}`)
-      .then((response) => response.json())
-      .then((data) => setReviews(data))
-      .catch((error) => console.error("Error fetching reviews:", error));
-  }, [stationId, addReview]);
-
+const ReviewList = ({ reviews }) => {
   return (
     <div className="p-6 mt-8">
       <h3 className="text-xl font-bold mb-4">Anmeldelser</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-        {reviews.map((review) => (
-          <ReviewItem key={review.id} review={review} formatDate={formatDate} />
+        {reviews.map((review, index) => (
+          <ReviewItem
+            key={review.id || index}
+            review={review}
+            formatDate={formatDate}
+          />
         ))}
       </div>
     </div>

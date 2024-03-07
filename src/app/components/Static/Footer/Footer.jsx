@@ -19,7 +19,7 @@ const Footer = () => (
       </div>
       <div className="footer-right">
         <a href="#top" className="back-to-top">
-          Back to Top ↑
+          Back to Top <img src="/icons/footerarrow.svg" className="icon" />
         </a>
       </div>
     </div>
