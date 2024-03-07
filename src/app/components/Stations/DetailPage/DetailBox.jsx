@@ -8,7 +8,7 @@ const DetailBox = ({ stationData }) => {
   const { user } = useUser();
 
   return (
-    <div className="max-w-4xl mx-8 md:mx-auto my-8 bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="max-w-6xl mx-8 md:mx-auto my-8 bg-white rounded-lg shadow-md overflow-hidden">
       <div className="h-60 bg-gray-200"></div>
       <div className="p-6">
         <h2 className="text-2xl font-bold">{stationData.name}</h2>

@@ -9,12 +9,16 @@ const formatDate = (dateString) => {
 const ReviewList = ({ stationId }) => {
   const [reviews, setReviews] = useState([]);
 
+  const addReview = (newReview) => {
+    setReviews((prevReviews) => [newReview, ...prevReviews]);
+  };
+
   useEffect(() => {
     fetch(`http://localhost:3000/reviews/${stationId}`)
       .then((response) => response.json())
       .then((data) => setReviews(data))
       .catch((error) => console.error("Error fetching reviews:", error));
-  }, [stationId]);
+  }, [stationId, addReview]);
 
   return (
     <div className="p-6 mt-8">
