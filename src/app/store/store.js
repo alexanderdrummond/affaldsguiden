@@ -66,6 +66,32 @@ const useStore = create((set, get) => ({
     }));
   },
 
+  deleteReview: async (reviewId) => {
+    try {
+      const requestOptions = {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      };
+
+      await fetch(`http://localhost:3000/reviews/${reviewId}`, requestOptions);
+
+      set((state) => {
+        const updatedReviews = { ...state.reviews };
+        Object.keys(updatedReviews).forEach((orgId) => {
+          updatedReviews[orgId] = updatedReviews[orgId].filter(
+            (review) => review.id !== reviewId
+          );
+        });
+
+        return { ...state, reviews: updatedReviews };
+      });
+    } catch (error) {
+      console.error("delete review error:", error);
+    }
+  },
+
   // Sorting:
   // mere info her
 

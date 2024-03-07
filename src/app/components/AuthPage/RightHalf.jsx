@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Button from "../Static/atoms/Button";
 import { useNotification } from "@/app/context/NotificationContext";
+import { useRouter } from "next/navigation";
 
 export default function RightHalf() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { showNotification } = useNotification();
@@ -37,6 +39,9 @@ export default function RightHalf() {
         localStorage.setItem("token", result.access_token);
         localStorage.setItem("user", JSON.stringify(result.user));
         showNotification("success", "Du er nu logget ind");
+        const lastPage = localStorage.getItem("lastPage") || "/";
+        router.push(lastPage);
+        localStorage.removeItem("lastPage");
       } else if (response.status === 401) {
         showNotification("error", "Forkert brugernavn eller kode");
       }
@@ -47,12 +52,14 @@ export default function RightHalf() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-1/2">
+    <div className="flex flex-col justify-center items-center w-full sm:w-1/2 px-4 sm:px-0">
       <form
-        className="bg-[#FBFCFC] p-12 rounded-2xl w-3/4 max-w-md shadow-md"
+        className="bg-[#FBFCFC] p-4 sm:p-12 rounded-2xl w-full max-w-md shadow-md"
         onSubmit={handleLogin}
       >
-        <h2 className="text-3xl font-semibold mb-8">Log ind</h2>
+        <h2 className="text-xl sm:text-3xl font-semibold mb-4 sm:mb-8">
+          Log ind
+        </h2>
         <input
           type="text"
           placeholder="Email"
@@ -60,7 +67,7 @@ export default function RightHalf() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <div className="relative mb-6">
+        <div className="relative mb-4 sm:mb-6">
           <input
             type="password"
             placeholder="Password"
@@ -72,7 +79,7 @@ export default function RightHalf() {
             <img src="/eye.svg" alt="show/hide" />
           </span>
         </div>
-        <div className="justify-center">
+        <div className="flex justify-center">
           <Button variant="filled" type="submit">
             Log ind
           </Button>

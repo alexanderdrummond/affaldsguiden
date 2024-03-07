@@ -17,8 +17,8 @@ const StepTwo = ({ onSubmit }) => {
 
   return (
     <div>
-      <h2 className="text-xl">Trin 2</h2>
-      <h3 className="text-lg font-bold mt-4">Hvor skal den leveres?</h3>
+      <h2 className="text-xl font-extralight">Trin 2</h2>
+      <h3 className="text-2xl  mt-6 font-normal">Leveringsadresse</h3>
       <p className="text-sm mt-2">Lorem ipsum</p>
       <div className="mt-4">
         <input

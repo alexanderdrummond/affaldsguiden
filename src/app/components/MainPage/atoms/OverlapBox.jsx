@@ -4,7 +4,11 @@ import Button from "../../Static/atoms/Button";
 import { useUser } from "@/app/context/UserContext";
 
 const OverlapBox = () => {
-  const { user } = useUser();
+  const { user, loading } = useUser();
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <div className="relative mx-auto -mt-16 mb-16 max-w-xs sm:max-w-sm md:max-w-md bg-customgreenlight p-4 md:p-6 rounded-lg shadow-lg">

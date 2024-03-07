@@ -8,7 +8,15 @@ export const RouterWatch = () => {
   const { user } = useUser();
 
   useEffect(() => {
-    console.log("nav to:", pathname, searchParams);
+    if (pathname === "/auth" && !user) {
+      if (typeof window !== "undefined") {
+        const referrer = document.referrer;
+        localStorage.setItem("lastPage", referrer);
+      }
+    }
+
+    console.log("nav to:", pathname, "from", document.referrer);
+    console.log("params:", searchParams);
     console.log("user:", user);
   }, [pathname, searchParams, user]);
 
