@@ -1,15 +1,14 @@
-import Hero from './atoms/Hero';
-import InfoSection from './atoms/InfoSection';
-import OverlapBox from './atoms/OverlapBox';
+import WaveImage from "../Static/atoms/WaveImage";
+import Hero from "./atoms/Hero";
+import InfoSection from "./atoms/InfoSection";
+import OverlapBox from "./atoms/OverlapBox";
 
 const MainPage = () => (
   <div>
     <Hero />
     <OverlapBox />
     <InfoSection />
-    <div className="w-full">
-      <img src="/bottom1.svg" alt="Wave" className="w-full" />
-    </div>
+    <WaveImage variant="main" />
   </div>
 );
 

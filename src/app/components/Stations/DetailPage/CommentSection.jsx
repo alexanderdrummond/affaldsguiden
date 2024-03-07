@@ -1,17 +1,24 @@
 import { useState, useContext } from "react";
 import { UserContext, useUser } from "@/app/context/UserContext";
 import Button from "../../Static/atoms/Button";
+import { useNotification } from "@/app/context/NotificationContext";
 
 const CommentSection = ({ stationId }) => {
   const [selectedStars, setSelectedStars] = useState(0);
   const [comment, setComment] = useState("");
   const { user } = useUser();
+  const { showNotification } = useNotification();
 
   const handleStarClick = (starIndex) => {
     setSelectedStars(starIndex);
   };
 
   const handleSubmit = async () => {
+    if (selectedStars === 0) {
+      showNotification("error", "Vælg venligst et antal stjerner.");
+      return;
+    }
+
     const urlencoded = new URLSearchParams();
     urlencoded.append("org_id", stationId.toString());
     urlencoded.append("subject", "to be added");
@@ -34,10 +41,36 @@ const CommentSection = ({ stationId }) => {
         "http://localhost:3000/reviews",
         requestOptions
       );
-      if (!response.ok) throw new Error("Response not ok");
-      console.log("comment success");
+      console.log(response);
+
+      if (!response.ok) {
+        console.error(
+          "server response error",
+          response.status,
+          response.statusText
+        );
+        throw new Error("server response error");
+      }
+
+      showNotification("success", "Din kommentar er blevet oprettet.");
+
+      const newComment = {
+        org_id: stationId,
+        subject: "to be added",
+        comment: comment,
+        num_stars: selectedStars,
+        date: new Date().toISOString(),
+      };
+
+      onCommentSubmit(newComment);
+      setComment("");
+      setSelectedStars(0);
     } catch (error) {
       console.error("comment error:", error);
+      showNotification(
+        "error",
+        "Der opstod en fejl med oprettelsen af din kommentar."
+      );
     }
   };
 
@@ -65,9 +98,7 @@ const CommentSection = ({ stationId }) => {
         onChange={(e) => setComment(e.target.value)}
       ></textarea>
       <div className="flex justify-center">
-        <Button className="mt-4" variant="filled" onClick={handleSubmit}>
-          Send kommentar
-        </Button>
+        <Button onClick={handleSubmit}>Send kommentar</Button>
       </div>
     </div>
   );

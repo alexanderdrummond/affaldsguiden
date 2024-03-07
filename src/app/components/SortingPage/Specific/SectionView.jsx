@@ -22,7 +22,7 @@ const SectionView = ({ categoryId }) => {
     }
   }, [categoryId]);
 
-  const renderTable = (types, isAllowed) => (
+  const renderTable = (types, isAllowed, showHeadings) => (
     <div className="overflow-x-auto w-full">
       <table className="min-w-full divide-y divide-gray-200 mt-2">
         <thead className="bg-gray-50">
@@ -31,10 +31,10 @@ const SectionView = ({ categoryId }) => {
               Type
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Sorteres hjemme
+              {showHeadings ? "Sorteres hjemme" : ""}
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Station
+              {showHeadings ? "Station" : ""}
             </th>
           </tr>
         </thead>
@@ -45,10 +45,10 @@ const SectionView = ({ categoryId }) => {
               <tr key={type.id}>
                 <td className="px-6 py-4 whitespace-nowrap">{type.title}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {type.rules.is_home ? "Ja" : "Nej"}
+                  {showHeadings ? (type.rules.is_home ? "Ja" : "Nej") : ""}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {type.rules.is_station ? "Ja" : "Nej"}
+                  {showHeadings ? (type.rules.is_station ? "Ja" : "Nej") : ""}
                 </td>
               </tr>
             ))}
@@ -64,9 +64,9 @@ const SectionView = ({ categoryId }) => {
         {!loading && categoryDetails && (
           <>
             <h3 className="text-lg font-semibold">Vi modtager</h3>
-            {renderTable(categoryDetails.types, true)}
+            {renderTable(categoryDetails.types, true, true)}
             <h3 className="text-lg font-semibold mt-6">Vi modtager ikke</h3>
-            {renderTable(categoryDetails.types, false)}
+            {renderTable(categoryDetails.types, false, false)}
           </>
         )}
       </div>

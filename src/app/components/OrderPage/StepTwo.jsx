@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "../Static/atoms/Button";
 
 const StepTwo = ({ onSubmit }) => {
   const [orderData, setOrderData] = useState({
@@ -69,12 +70,14 @@ const StepTwo = ({ onSubmit }) => {
           onChange={handleChange}
         />
       </div>
-      <button
-        onClick={() => onSubmit(orderData)}
-        className="mt-6 bg-blue-500 text-white py-2 px-4 rounded-md"
-      >
-        Send
-      </button>
+      <div className="flex justify-end">
+        <Button
+          onClick={() => onSubmit(orderData)}
+          className="mt-10 py-2 px-4 rounded-md"
+        >
+          Videre
+        </Button>
+      </div>
     </div>
   );
 };
