@@ -1,3 +1,5 @@
+"use client";
+
 import WaveImage from "../Static/atoms/WaveImage";
 import Hero from "./atoms/Hero";
 import InfoSection from "./atoms/InfoSection";

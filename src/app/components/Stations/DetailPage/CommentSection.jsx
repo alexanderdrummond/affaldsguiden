@@ -1,12 +1,16 @@
-import { useState, useContext } from "react";
-import { UserContext, useUser } from "@/app/context/UserContext";
+import { useState } from "react";
+import { useUser } from "@/app/context/UserContext";
+import useStore from "@/app/store/store";
 import Button from "../../Static/atoms/Button";
 import { useNotification } from "@/app/context/NotificationContext";
 
-const CommentSection = ({ stationId, onCommentSubmit }) => {
+const CommentSection = ({ stationId }) => {
   const [selectedStars, setSelectedStars] = useState(0);
   const [comment, setComment] = useState("");
   const { user } = useUser();
+  const { addReview } = useStore((state) => ({
+    addReview: state.addReview,
+  }));
   const { showNotification } = useNotification();
 
   const handleStarClick = (starIndex) => {
@@ -19,53 +23,33 @@ const CommentSection = ({ stationId, onCommentSubmit }) => {
       return;
     }
 
-    const urlencoded = new URLSearchParams();
-    urlencoded.append("org_id", stationId.toString());
-    urlencoded.append("subject", "Anmeldelse");
-    urlencoded.append("comment", comment);
-    urlencoded.append("num_stars", selectedStars.toString());
-    urlencoded.append("date", new Date().toISOString());
-
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/x-www-form-urlencoded",
+    const newReview = {
+      org_id: stationId,
+      subject: "Anmeldelse",
+      comment: comment,
+      num_stars: selectedStars,
+      date: new Date().toISOString(),
+      user: {
+        firstname: user.firstname,
+        lastname: user.lastname,
       },
-      body: urlencoded,
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:3000/reviews",
-        requestOptions
-      );
+      const response = await fetch("http://localhost:3000/reviews", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newReview),
+      });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error(
-          "Server response error",
-          response.status,
-          response.statusText,
-          errorText
-        );
-        showNotification("error", "Fejl ved indsendelse af anmeldelse.");
-        return;
+        throw new Error("Failed to post");
       }
 
-      const newComment = {
-        org_id: stationId,
-        subject: "Anmeldelse",
-        comment: comment,
-        num_stars: selectedStars,
-        date: new Date().toISOString(),
-        user: {
-          firstname: user.firstname,
-          lastname: user.lastname,
-        },
-      };
-
-      onCommentSubmit && onCommentSubmit(newComment);
+      addReview(newReview);
       showNotification("success", "Din kommentar er blevet oprettet.");
       setComment("");
       setSelectedStars(0);

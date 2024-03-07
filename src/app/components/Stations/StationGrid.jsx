@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
-import RecyclingStationItem from "./StationItem";
+import StationItem from "./StationItem";
+import useStore from "@/app/store/store";
 
 const StationGrid = () => {
-  const [stations, setStations] = useState([]);
+  const { stations, fetchStations } = useStore((state) => ({
+    stations: state.stations,
+    fetchStations: state.fetchStations,
+  }));
 
   useEffect(() => {
-    fetch("http://localhost:3000/orgs?attributes=id,name,address,zipcode,city")
-      .then((response) => response.json())
-      .then((data) => setStations(data))
-      .catch((error) => console.error("fetch error:", error));
-  }, []);
+    fetchStations();
+  }, [fetchStations]);
 
   return (
     <div className=" my-10 mx-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
       {stations.map((station) => (
-        <RecyclingStationItem key={station.id} {...station} />
+        <StationItem key={station.id} {...station} />
       ))}
     </div>
   );

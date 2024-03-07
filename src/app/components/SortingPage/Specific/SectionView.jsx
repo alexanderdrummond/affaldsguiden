@@ -1,26 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import useStore from "@/app/store/store";
+import { useEffect } from "react";
 
 const SectionView = ({ categoryId }) => {
-  const [categoryDetails, setCategoryDetails] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { categoryDetails, fetchCategoryDetails } = useStore((state) => ({
+    categoryDetails: state.categoryDetails,
+    fetchCategoryDetails: state.fetchCategoryDetails,
+  }));
 
   useEffect(() => {
-    if (categoryId) {
-      setLoading(true);
-      fetch(`http://localhost:3000/category/details/${categoryId}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setCategoryDetails(data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("error fetching category:", error);
-          setLoading(false);
-        });
+    if (categoryId && !categoryDetails[categoryId]) {
+      fetchCategoryDetails(categoryId);
     }
-  }, [categoryId]);
+  }, [categoryId, categoryDetails, fetchCategoryDetails]);
+
+  const categoryData = categoryDetails[categoryId];
 
   const renderTable = (types, isAllowed, showHeadings) => (
     <div className="overflow-x-auto w-full">
@@ -57,18 +52,17 @@ const SectionView = ({ categoryId }) => {
     </div>
   );
 
+  if (!categoryData) {
+    return <div>Loader eller ingen data fundet..</div>;
+  }
+
   return (
     <div className="flex flex-col items-center">
       <div className="bg-white rounded-lg shadow-lg p-4 w-11/12">
-        {loading && <div>Loading...</div>}
-        {!loading && categoryDetails && (
-          <>
-            <h3 className="text-lg font-semibold">Vi modtager</h3>
-            {renderTable(categoryDetails.types, true, true)}
-            <h3 className="text-lg font-semibold mt-6">Vi modtager ikke</h3>
-            {renderTable(categoryDetails.types, false, false)}
-          </>
-        )}
+        <h3 className="text-lg font-semibold">Vi modtager</h3>
+        {renderTable(categoryData.types, true, true)}
+        <h3 className="text-lg font-semibold mt-6">Vi modtager ikke</h3>
+        {renderTable(categoryData.types, false, false)}
       </div>
     </div>
   );

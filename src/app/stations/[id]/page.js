@@ -1,20 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Layout from "../../components/Layout/MainLayout";
 import { useParams } from "next/navigation";
+import useStore from "@/app/store/store";
+import Layout from "../../components/Layout/MainLayout";
 import DetailBox from "@/app/components/Stations/DetailPage/DetailBox";
 
 const StationDetail = () => {
   const { id } = useParams();
-  const [stationData, setStationData] = useState({});
+  const { stations } = useStore((state) => state);
 
-  useEffect(() => {
-    fetch(`http://localhost:3000/orgs/${id}`)
-      .then((response) => response.json())
-      .then((data) => setStationData(data))
-      .catch((error) => console.error("error fetching:", error));
-  }, [id]);
+  const stationData =
+    stations.find((station) => station.id.toString() === id) || {};
 
   return (
     <Layout>
