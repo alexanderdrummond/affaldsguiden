@@ -6,8 +6,9 @@ import Footer from "../Static/Footer/Footer";
 import { UserProvider } from "@/app/context/UserContext";
 import { RouterWatch } from "../RouterWatch/RouterWatch";
 import { NotificationProvider } from "@/app/context/NotificationContext";
+import withDataPreload from "@/app/context/dataPreload";
 
-export default function Layout({ children }) {
+function MainLayout({ children }) {
   return (
     <UserProvider>
       <RouterWatch />
@@ -21,3 +22,5 @@ export default function Layout({ children }) {
     </UserProvider>
   );
 }
+
+export default withDataPreload(MainLayout);

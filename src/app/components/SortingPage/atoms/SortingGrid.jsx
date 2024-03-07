@@ -1,32 +1,21 @@
+import useStore from "@/app/store/store";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
 
 const SortingGrid = () => {
-  const [data, setData] = useState([]);
+  const { sortingSections } = useStore((state) => state);
   const router = useRouter();
 
-  useEffect(() => {
-    fetch("http://localhost:3000/section")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Fetched data:", data);
-        setData(data);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
-
   const navigateToItem = (id) => {
-    console.log("navigating to id:", id);
     router.push(`/sorting/${id}`);
   };
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-      {data.map((item) => (
+      {sortingSections.map((item) => (
         <div
           key={item.id}
           onClick={() => navigateToItem(item.id)}
-          className="rounded-lg overflow-hidden shadow-lg block cursor-pointer"
+          className="rounded-lg overflow-hidden shadow-lg block cursor-pointer transform transition duration-300 ease-in-out hover:scale-105 hover:shadow-xl"
         >
           <img
             src={item.filepath}

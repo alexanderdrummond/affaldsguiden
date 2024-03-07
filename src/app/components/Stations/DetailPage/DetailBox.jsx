@@ -1,33 +1,19 @@
 import { useUser } from "@/app/context/UserContext";
-import { useState, useEffect } from "react";
+import useStore from "@/app/store/store";
+import React from "react";
 import ReviewList from "./ReviewList";
-import Link from "next/link";
 import CommentSection from "./CommentSection";
+import Link from "next/link";
 
 const DetailBox = ({ stationData }) => {
   const { user } = useUser();
-  const [reviews, setReviews] = useState([]);
-  const [updateReviews, setUpdateReviews] = useState(false);
+  const { reviews, addReview } = useStore((state) => ({
+    reviews: state.reviews[stationData.id] || [],
+    addReview: state.addReview,
+  }));
 
-  useEffect(() => {
-    if (stationData?.id) {
-      fetch(`http://localhost:3000/reviews/${stationData.id}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setReviews(data);
-          setUpdateReviews(false);
-        })
-        .catch((error) => console.error("error fetching reviews:", error));
-    }
-  }, [stationData?.id, updateReviews]);
-
-  const addReview = (newReview) => {
-    const formattedDate = new Date(newReview.date).toISOString();
-    newReview = { ...newReview, created_at: formattedDate };
-
-    setReviews((prevReviews) => {
-      return [...prevReviews, newReview];
-    });
+  const handleAddReview = (newReview) => {
+    addReview(stationData.id, newReview);
   };
 
   return (
@@ -53,7 +39,7 @@ const DetailBox = ({ stationData }) => {
       {user ? (
         <CommentSection
           stationId={stationData.id}
-          onCommentSubmit={addReview}
+          onCommentSubmit={handleAddReview}
         />
       ) : (
         <div className="text-center my-4">

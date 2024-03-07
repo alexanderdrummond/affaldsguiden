@@ -1,31 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import useStore from "@/app/store/store";
 import SectionView from "../../components/SortingPage/Specific/SectionView";
 import Layout from "@/app/components/Layout/MainLayout";
 
 const ItemDetailPage = ({ params }) => {
-  const [sectionData, setSectionData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-
   const { id } = params;
+  const { sectionDetails, fetchSectionDetail } = useStore((state) => ({
+    sectionDetails: state.sectionDetails,
+    fetchSectionDetail: state.fetchSectionDetail,
+  }));
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
   useEffect(() => {
     if (id) {
-      setLoading(true);
-      fetch(`http://localhost:3000/section/${id}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setSectionData(data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("error fetching:", error);
-          setLoading(false);
-        });
+      fetchSectionDetail(id);
     }
-  }, [id]);
+  }, [id, fetchSectionDetail]);
+
+  const sectionData = sectionDetails[id];
 
   const handleCategoryClick = (categoryId) => {
     setSelectedCategoryId(
@@ -33,12 +27,8 @@ const ItemDetailPage = ({ params }) => {
     );
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   if (!sectionData) {
-    return <div>no data</div>;
+    return <div>Loading...</div>;
   }
 
   return (
