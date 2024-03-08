@@ -10,6 +10,13 @@ export default function RightHalf() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { showNotification } = useNotification();
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Funktion til display af password i feltet.
+
+  const toggleVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -33,11 +40,23 @@ export default function RightHalf() {
         "http://localhost:3000/login",
         requestOptions
       );
-
       if (response.status === 200) {
         const result = await response.json();
+
+        // decode af JWT token fra response
+        const payloadEncoded = result.access_token.split(".")[1];
+        const payloadDecoded = atob(payloadEncoded);
+        const payload = JSON.parse(payloadDecoded);
+
+        // konverterer til date
+        const expiryDate = new Date(payload.exp * 1000);
+
+        // store token, user og expiry i localStorage
         localStorage.setItem("token", result.access_token);
-        localStorage.setItem("user", JSON.stringify(result.user));
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ ...result.user, tokenExpiry: expiryDate })
+        );
         showNotification("success", "Du er nu logget ind");
         const lastPage = localStorage.getItem("lastPage") || "/";
         router.push(lastPage);
@@ -47,7 +66,7 @@ export default function RightHalf() {
       }
     } catch (error) {
       console.error("Login error", error);
-      showNotification("error", "tba");
+      showNotification("error", "Der opstod en fejl ved login");
     }
   };
 
@@ -69,14 +88,17 @@ export default function RightHalf() {
         />
         <div className="relative mb-4 sm:mb-6">
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Password"
             className="w-full p-3 rounded-lg border border-[#DCDBDD] pr-10"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <span className="absolute inset-y-0 right-3 flex items-center">
-            <img src="/eye.svg" alt="show/hide" />
+          <span
+            className="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+            onClick={toggleVisibility}
+          >
+            <img src="/icons/eye.svg" alt="show/hide" />
           </span>
         </div>
         <div className="flex justify-center">

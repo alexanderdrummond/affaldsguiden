@@ -1,7 +1,10 @@
 import { create } from "zustand";
 
 const useStore = create((set, get) => ({
+  // State med liste af stationer.
   stations: [],
+
+  // Funktion der fetcher stationer kun når listen er tom.
   fetchStations: async () => {
     if (get().stations.length > 0) {
       return;
@@ -12,7 +15,7 @@ const useStore = create((set, get) => ({
       );
       const stations = await stationResponse.json();
       set({ stations });
-
+      // Fetcher reviews fra hver station + merger til ét objekt
       const reviewPromises = stations.map((station) =>
         fetch(`http://localhost:3000/reviews/${station.id}`)
           .then((res) => res.json())
@@ -28,7 +31,12 @@ const useStore = create((set, get) => ({
       console.error("fetch error:", error);
     }
   },
+
+  // State der storer reviews på stationernes ID
+
   reviews: {},
+
+  // Fetcher reviews på stationer baseret på ID
   fetchReviews: async (stationId) => {
     try {
       const response = await fetch(
@@ -42,6 +50,8 @@ const useStore = create((set, get) => ({
       console.error("review fetch error:", error);
     }
   },
+
+  // Fetcher detaljer for en station hvis det ikke allerede er er i staten
   fetchStationDetail: async (stationId) => {
     let currentStations = get().stations;
     if (!currentStations.some((station) => station.id === stationId)) {
@@ -54,6 +64,9 @@ const useStore = create((set, get) => ({
       }
     }
   },
+
+  // Tilføjer review til store
+
   addReview: async (newReview) => {
     set((state) => ({
       reviews: {
@@ -66,6 +79,8 @@ const useStore = create((set, get) => ({
     }));
   },
 
+  // Sletter review på ID
+
   deleteReview: async (reviewId) => {
     try {
       const requestOptions = {
@@ -76,7 +91,7 @@ const useStore = create((set, get) => ({
       };
 
       await fetch(`http://localhost:3000/reviews/${reviewId}`, requestOptions);
-
+      // Her slettes review from store så UI opdaterer
       set((state) => {
         const updatedReviews = { ...state.reviews };
         Object.keys(updatedReviews).forEach((orgId) => {
@@ -92,10 +107,12 @@ const useStore = create((set, get) => ({
     }
   },
 
-  // Sorting:
-  // mere info her
+  // Array af sektioner i affaldssortering
 
   sortingSections: [],
+
+  // Fetcher sorterings sektioner
+
   fetchSortingSections: async () => {
     try {
       const response = await fetch("http://localhost:3000/section");
@@ -106,7 +123,12 @@ const useStore = create((set, get) => ({
     }
   },
 
+  // Objekt der storer details af hver sektion baseret på ID
+
   sectionDetails: {},
+
+  // Fetcher details af sektion fra ID
+
   fetchSectionDetail: async (sectionId) => {
     if (!get().sectionDetails[sectionId]) {
       try {
@@ -122,8 +144,12 @@ const useStore = create((set, get) => ({
       }
     }
   },
+  // Storer details på kategorier på ID
 
   categoryDetails: {},
+
+  // Fetcher details fra kategorier på ID
+
   fetchCategoryDetails: async (categoryId) => {
     try {
       const response = await fetch(
@@ -135,6 +161,21 @@ const useStore = create((set, get) => ({
       }));
     } catch (error) {
       console.error("error fetching category details:", error);
+    }
+  },
+
+  // State der håndterer detaljer for nye ordre
+
+  orderDetails: null,
+
+  // Fetcher details på en specifik ordre på orderId (converted fra newId fra response)
+  fetchOrderDetails: async (orderId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/orders/${orderId}`);
+      const orderDetails = await response.json();
+      set({ orderDetails });
+    } catch (error) {
+      console.error("error fetching order details:", error);
     }
   },
 }));

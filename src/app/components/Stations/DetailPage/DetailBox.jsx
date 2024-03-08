@@ -9,11 +9,15 @@ const DetailBox = ({ stationData }) => {
   const { reviews, addReview } = useStore((state) => ({
     reviews: state.reviews[stationData.id] || [],
     addReview: state.addReview,
-  }));
+  })); // Tager reviews og addReview fra Zustand store
+
+  // Handler til tilføjelse af nyt review
 
   const handleAddReview = (newReview) => {
     addReview(stationData.id, newReview);
   };
+
+  // Udregnelse af gennemsnit rating
 
   let averageRating = 0;
   if (reviews.length > 0) {
@@ -27,7 +31,7 @@ const DetailBox = ({ stationData }) => {
   return (
     <div className="max-w-6xl mx-8 md:mx-auto my-8 bg-white rounded-lg shadow-md overflow-hidden">
       <div className="h-60 bg-gray-200">
-        <img className="h-60 w-full" src="/images/map.webp"></img>
+        <img className="h-60 w-full object-cover" src="/images/map.webp"></img>
       </div>
       <div className="p-6">
         <h2 className="text-2xl font-semibold">{stationData.name}</h2>
@@ -51,6 +55,9 @@ const DetailBox = ({ stationData }) => {
         reviews={reviews}
       />
       <hr />
+
+      {/* Her er conditional rendering baseret på om vi har en authed bruger */}
+
       {user ? (
         <CommentSection
           stationId={stationData.id}

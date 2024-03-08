@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
+// Mappet her virker ikke som det skal, men jeg har ladet komponentet være.
+
 const containerStyle = {
   width: "100%",
   height: "160px",
