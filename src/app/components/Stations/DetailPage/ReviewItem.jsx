@@ -6,8 +6,10 @@ const ReviewItem = ({ review, formatDate }) => {
   const { user } = useUser();
   const { deleteReview } = useStore((state) => ({
     deleteReview: state.deleteReview,
-  }));
+  })); // Tager deleteReview fra Zustand store
   const { showNotification } = useNotification();
+
+  // Handler delete af reviews ved brug af deleteReview fra store og passer success/error notifikationer
 
   const handleDelete = async () => {
     try {
@@ -18,6 +20,8 @@ const ReviewItem = ({ review, formatDate }) => {
       showNotification("error", "Fejl ved sletning af anmeldelse.");
     }
   };
+
+  // Tjekker om brugerens ID matcher review.user.id
 
   const isUserReview = user && Number(user.id) === review.user.id;
 
@@ -49,6 +53,9 @@ const ReviewItem = ({ review, formatDate }) => {
         </div>
       </div>
       <p className="mt-4 text-gray-600">{review.comment}</p>
+
+      {/* Conditional rendering af delete knap baseret på om det er brugerens eget review */}
+
       {isUserReview && (
         <div className="text-right mt-2">
           <button

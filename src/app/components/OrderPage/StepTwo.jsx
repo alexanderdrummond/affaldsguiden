@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from "../Static/atoms/Button";
 
-const StepTwo = ({ onSubmit }) => {
+const StepTwo = ({ onSubmit, errors }) => {
   const [orderData, setOrderData] = useState({
     fullname: "",
     address: "",
@@ -11,8 +11,16 @@ const StepTwo = ({ onSubmit }) => {
     phone: "",
   });
 
+  const handleSubmit = () => {
+    onSubmit(orderData);
+  };
+
   const handleChange = (e) => {
     setOrderData({ ...orderData, [e.target.name]: e.target.value });
+
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: null });
+    }
   };
 
   return (
@@ -41,7 +49,9 @@ const StepTwo = ({ onSubmit }) => {
           type="text"
           name="zipcode"
           placeholder="Postnummer"
-          className="border border-gray-300 rounded-md p-2 w-full mb-4"
+          className={`border rounded-md p-2 w-full mb-4 ${
+            errors.zipcode ? "border-red-500" : "border-gray-300"
+          }`}
           value={orderData.zipcode}
           onChange={handleChange}
         />
@@ -57,7 +67,9 @@ const StepTwo = ({ onSubmit }) => {
           type="email"
           name="email"
           placeholder="E-mail"
-          className="border border-gray-300 rounded-md p-2 w-full mb-4"
+          className={`border rounded-md p-2 w-full mb-4 ${
+            errors.email ? "border-red-500" : "border-gray-300"
+          }`}
           value={orderData.email}
           onChange={handleChange}
         />
@@ -65,17 +77,16 @@ const StepTwo = ({ onSubmit }) => {
           type="text"
           name="phone"
           placeholder="Telefon"
-          className="border border-gray-300 rounded-md p-2 w-full mb-4"
+          className={`border rounded-md p-2 w-full mb-4 ${
+            errors.phone ? "border-red-500" : "border-gray-300"
+          }`}
           value={orderData.phone}
           onChange={handleChange}
         />
       </div>
       <div className="flex justify-end">
-        <Button
-          onClick={() => onSubmit(orderData)}
-          className="mt-10 py-2 px-4 rounded-md"
-        >
-          Videre
+        <Button onClick={handleSubmit} className="mt-10 py-2 px-4 rounded-md">
+          Send
         </Button>
       </div>
     </div>

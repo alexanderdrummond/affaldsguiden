@@ -13,15 +13,22 @@ const CommentSection = ({ stationId }) => {
   }));
   const { showNotification } = useNotification();
 
+  // Handler til at vise det valgte antal stjerner
+
   const handleStarClick = (starIndex) => {
     setSelectedStars(starIndex);
   };
 
+  // Handler til POST af kommentar.
+
   const handleSubmit = async () => {
+    // Tjek af rating, prompt til at vælge antal stjerner.
     if (selectedStars === 0) {
       showNotification("error", "Vælg venligst et antal stjerner.");
       return;
     }
+
+    // Constructer et nyt review objekt
 
     const newReview = {
       org_id: stationId,
@@ -36,6 +43,7 @@ const CommentSection = ({ stationId }) => {
     };
 
     try {
+      // POST operation af review
       const response = await fetch("http://localhost:3000/reviews", {
         method: "POST",
         headers: {
@@ -48,6 +56,8 @@ const CommentSection = ({ stationId }) => {
       if (!response.ok) {
         throw new Error("Failed to post");
       }
+
+      // Hvis response er success opdaterer vi local state med det nye review.
 
       addReview(newReview);
       showNotification("success", "Din kommentar er blevet oprettet.");

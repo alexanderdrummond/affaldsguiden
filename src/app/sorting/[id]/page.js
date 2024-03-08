@@ -39,9 +39,9 @@ const ItemDetailPage = ({ params }) => {
             className="flex items-center justify-between rounded-t-lg"
             style={{ backgroundColor: `#${sectionData.color}` }}
           >
-            <h1 className="text-2xl font-bold text-white p-4">
+            <h2 className="text-xl font-semibold text-white p-4 text-center md:text-left">
               {sectionData.title}
-            </h1>
+            </h2>
             <div className="flex-grow flex justify-end items-stretch">
               <img
                 src={sectionData.filepath}

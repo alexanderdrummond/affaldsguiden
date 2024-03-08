@@ -5,7 +5,7 @@ const Footer = () => (
     <div className="footer-content">
       <div className="footer-left">
         <div className="logo-and-title">
-          <img src="/logo.svg" alt="Logo" className="footer-logo" />
+          <img src="/icons/logo_white.svg" alt="Logo" className="footer-logo" />
           <div className="footer-title">Affaldsguiden</div>
         </div>
         <div className="additional-text">

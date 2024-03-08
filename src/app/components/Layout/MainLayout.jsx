@@ -10,6 +10,7 @@ import { NotificationProvider } from "@/app/context/NotificationContext";
 import withDataPreload from "@/app/context/dataPreload";
 
 function MainLayout({ children }) {
+  // Controls til Framer Motion der sørger for smooth loading.
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { duration: 0.5 } },

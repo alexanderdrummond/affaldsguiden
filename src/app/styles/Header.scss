@@ -77,7 +77,7 @@
     cursor: pointer;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1158px) {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -95,7 +95,7 @@
       margin-bottom: 10px;
 
       a {
-        margin: 0px 5px;
+        margin: 2px 12px;
 
         &.active {
           color: #6da830;

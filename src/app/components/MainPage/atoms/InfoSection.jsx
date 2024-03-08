@@ -1,11 +1,13 @@
 import Button from "../../Static/atoms/Button";
 
+// Seperat render af sektion på mobil
+
 const MobileInfoSection = () => {
   return (
     <div className="flex flex-col items-center my-10 px-10">
       <img
-        src="/cb.png"
-        alt="Descriptive Alt Text"
+        src="/images/front01.webp"
+        alt="billede af farvede skraldespande"
         className="object-cover h-96 w-72 mx-auto mb-6 rounded"
       />
       <h2 className="text-3xl font-bold text-center mb-4">
@@ -17,7 +19,7 @@ const MobileInfoSection = () => {
         sortere hjemme hos dig.
       </p>
       <div className="flex flex-col items-center space-y-4 mb-16">
-        <Button className="w-full" variant="filled">
+        <Button className="w-full" variant="filled" href="/sorting">
           Se affaldsguide
         </Button>
         <Button className="w-full" variant="outline">
@@ -25,8 +27,8 @@ const MobileInfoSection = () => {
         </Button>
       </div>
       <img
-        src="/cb.png"
-        alt="Descriptive Alt Text"
+        src="/images/front02.webp"
+        alt="billede af overfyldt skraldespand"
         className="object-cover h-96 w-72 mx-auto mb-6 rounded"
       />
       <h2 className="text-3xl font-bold text-center mb-4">
@@ -37,7 +39,9 @@ const MobileInfoSection = () => {
         beholdere. Du får også tips og tricks til, hvordan du gør det nemt at
         sortere hjemme hos dig.
       </p>
-      <Button className="w-full">Bestil nu</Button>
+      <Button className="w-full" href="/order">
+        Bestil nu
+      </Button>
     </div>
   );
 };
@@ -59,7 +63,7 @@ const InfoSection = () => {
             <br /> at sortere hjemme hos dig.
           </p>
           <div>
-            <Button className="mr-4" variant="filled">
+            <Button className="mr-4" variant="filled" href="/sorting">
               Se affaldsguide
             </Button>
             <Button variant="outline">Bestil storskrald</Button>
@@ -95,7 +99,7 @@ const InfoSection = () => {
             beholdere. Du får også tips og tricks til, hvordan du gør det nemt
             <br /> at sortere hjemme hos dig.
           </p>
-          <Button>Bestil nu</Button>
+          <Button href="/order">Bestil nu</Button>
         </div>
       </div>
 

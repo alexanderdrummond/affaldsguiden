@@ -9,13 +9,22 @@ const SectionView = ({ categoryId }) => {
     fetchCategoryDetails: state.fetchCategoryDetails,
   }));
 
+  // Hook til at loade detaljer på kategorier hvis de ikke er present i Zustand.
+
   useEffect(() => {
     if (categoryId && !categoryDetails[categoryId]) {
       fetchCategoryDetails(categoryId);
     }
   }, [categoryId, categoryDetails, fetchCategoryDetails]);
 
+  // Her accesser jeg kategori data ud fra den enkelte kategoris ID.
+
   const categoryData = categoryDetails[categoryId];
+
+  // Tabel der render med forskellige typer af conditional rendering. showHeadings sørger for vi kun render de to sorterings parametre
+  // i den første tabel. Herefter mapper vi gennem "types" arrayet og filtrere i dem baseret på resultat af is_allowed.
+  // Til sidst viser vi i to nye columns headings i den første tabel (hvor is_allowed=true) samt hvor de kan sorteres baseret på
+  // reglerne is_home og is_station
 
   const renderTable = (types, isAllowed, showHeadings) => (
     <div className="overflow-x-auto w-full">
